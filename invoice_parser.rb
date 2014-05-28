@@ -7,7 +7,7 @@ class InvoiceParser
   end
 
   def parse
-    all_number = []
+    all_numbers = []
     final_number = []
     temp_invoice_number_array = []
     temp_digits = {
@@ -26,16 +26,29 @@ class InvoiceParser
       i = index + 1 
       if i % 4 == 0
         temp_invoice_number_array = []
+        final_number = []
+        temp_digits = {
+          "1" => [],
+          "2" => [],
+          "3" => [],
+          "4" => [],
+          "5" => [],
+          "6" => [],
+          "7" => [],
+          "8" => [],
+          "9" => []
+        }
       else
         temp_invoice_number_array << disassemble_line_to_groups_of_3_chars(line)
 
         if temp_invoice_number_array.length == 3
-          
+          p "temp_invoice_number_array: #{temp_invoice_number_array}"
           temp_invoice_number_array.each do |disassembled_line|
             disassembled_line.each_with_index do |digit_part, index|
               temp_digits["#{index + 1}"] << digit_part
             end
           end
+          p "temp_digits: #{temp_digits}"
 
           temp_digits.each do |digit_number, digit_chars_array|
             final_number << recognize_digit(digit_chars_array)
