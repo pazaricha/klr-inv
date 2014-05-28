@@ -7,6 +7,7 @@ class InvoiceParser
   end
 
   def parse
+    all_number = []
     final_number = []
     temp_invoice_number_array = []
     temp_digits = {
@@ -39,12 +40,13 @@ class InvoiceParser
           temp_digits.each do |digit_number, digit_chars_array|
             final_number << recognize_digit(digit_chars_array)
           end
-          final_number.join + "\n"
+          all_numbers << final_number.join
 
         end
       end
 
     end
+    all_numbers.join("\n")
   end
 
   def disassemble_line_to_groups_of_3_chars(line)

@@ -8,7 +8,7 @@ RSpec.describe InvoiceParser do
 
   describe "#parse" do
     it "returns the parsed invoices numbers" do
-      subject.parse.should == "650408454"
+      subject.parse.should == "650408454\n123456789"
     end
   end
 
