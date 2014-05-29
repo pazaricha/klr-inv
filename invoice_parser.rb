@@ -1,16 +1,16 @@
+require_relative "helper_vars"
+
 class InvoiceParser
 
   attr_reader :input_file
+  attr_accessor :output_file
 
-  def initialize(input_txt_file_path)
-    @input_file = File.open(input_txt_file_path)
-  end
-
-  def parse
-    all_numbers = []
-    final_number = []
-    temp_invoice_number_array = []
-    temp_digits = {
+  def initialize(input_file_name, output_file_name)
+    @input_file = File.open("#{$PROJECT_ROOT}#{input_file_name}")
+    @output_file = File.open("#{$PROJECT_ROOT}#{output_file_name}", "w")
+    @temp_final_number_array = []
+    @temp_invoice_number_array = []
+    @temp_digits_hash = {
       "1" => [],
       "2" => [],
       "3" => [],
@@ -21,13 +21,15 @@ class InvoiceParser
       "8" => [],
       "9" => []
     }
+  end
 
+  def parse
     input_file.each_with_index do |line, index|
       i = index + 1 
       if i % 4 == 0
-        temp_invoice_number_array = []
-        final_number = []
-        temp_digits = {
+        @temp_invoice_number_array = []
+        @temp_final_number_array = []
+        @temp_digits_hash = {
           "1" => [],
           "2" => [],
           "3" => [],
@@ -39,27 +41,29 @@ class InvoiceParser
           "9" => []
         }
       else
-        temp_invoice_number_array << disassemble_line_to_groups_of_3_chars(line)
+        @temp_invoice_number_array << disassemble_line_to_groups_of_3_chars(line)
 
-        if temp_invoice_number_array.length == 3
-          p "temp_invoice_number_array: #{temp_invoice_number_array}"
-          temp_invoice_number_array.each do |disassembled_line|
+        if @temp_invoice_number_array.length == 3
+          @temp_invoice_number_array.each do |disassembled_line|
             disassembled_line.each_with_index do |digit_part, index|
-              temp_digits["#{index + 1}"] << digit_part
+              @temp_digits_hash["#{index + 1}"] << digit_part
             end
           end
-          p "temp_digits: #{temp_digits}"
 
-          temp_digits.each do |digit_number, digit_chars_array|
-            final_number << recognize_digit(digit_chars_array)
+          @temp_digits_hash.each do |digit_number, digit_chars_array|
+            @temp_final_number_array << recognize_digit(digit_chars_array)
           end
-          all_numbers << final_number.join
+          if input_file.eof?
+            output_file.write(@temp_final_number_array.join)
+          else
+            output_file.write(@temp_final_number_array.join + "\n")
+          end
 
         end
       end
 
     end
-    all_numbers.join("\n")
+    output_file.close
   end
 
   def disassemble_line_to_groups_of_3_chars(line)

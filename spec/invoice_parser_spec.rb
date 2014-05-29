@@ -3,18 +3,24 @@ require "#{$PROJECT_ROOT}/invoice_parser"
 
 RSpec.describe InvoiceParser do
 
-  let(:sample_input_txt_file_path) { "#{$PROJECT_ROOT}/spec/support/1test.txt" }
-  subject { InvoiceParser.new(sample_input_txt_file_path) }
+  let(:user_story_1_input) { "/spec/support/input_user_story_1.txt" }
+  let(:user_story_1_output) { "/spec/support/parsed_tests/user_story_1_parsed.txt" }
+  let(:expected_parsed_file_content) {
+    File.open("#{$PROJECT_ROOT}/spec/support/output_user_story_1.txt").read
+  }
+
+  subject { InvoiceParser.new(user_story_1_input, user_story_1_output) }
 
   describe "#parse" do
     it "returns the parsed invoices numbers" do
-      subject.parse.should == "650408454\n123456789"
+      subject.parse
+      File.open("#{$PROJECT_ROOT}#{user_story_1_output}").read.should == expected_parsed_file_content
     end
   end
 
   describe "#disassemble_line_to_groups_of_3_chars" do
     let(:sample_line) do 
-      file = File.open(sample_input_txt_file_path)
+      file = File.open(user_story_1_input)
       line = file.readline.gsub("\n", "")
       file.rewind
       line
