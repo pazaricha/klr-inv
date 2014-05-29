@@ -1,5 +1,5 @@
 require_relative "../helper_vars"
-require "#{$PROJECT_ROOT}/invoice_parser"
+require "#{$PROJECT_ROOT}/lib/invoice_parser"
 
 RSpec.describe InvoiceParser do
 
