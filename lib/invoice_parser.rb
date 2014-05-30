@@ -4,12 +4,12 @@ require_relative "number_builder"
 class InvoiceParser
 
   attr_reader :input_file
-  attr_accessor :output_file
+  attr_accessor :output_invoice_numbers
 
-  def initialize(input_file_name, output_file_name)
-    @input_file = File.open("#{$PROJECT_ROOT}#{input_file_name}")
-    @output_file = File.open("#{$PROJECT_ROOT}#{output_file_name}", "w")
+  def initialize(input_file_path)
+    @input_file = File.open(input_file_path)
     @current_disassembled_invoice_rows = []
+    @output_invoice_numbers = []
   end
 
   def parse
@@ -18,11 +18,11 @@ class InvoiceParser
 
       collect_invoice_row_from_line(line)
       if finished_reading_single_invoice_rows?
-        write_invoice_number_to_output_file
+        parse_and_collect_invoice_number
         reset_temp_vars!
       end
     end
-    output_file.close
+    output_invoice_numbers.join
   end
 
   private
@@ -47,13 +47,12 @@ class InvoiceParser
     NumberBuilder.new(@current_disassembled_invoice_rows).build
   end
 
-  def write_invoice_number_to_output_file
+  def parse_and_collect_invoice_number
     invoice_number = build_invoice_number
-
     if input_file.eof?
-      output_file.write(invoice_number)
+      @output_invoice_numbers << invoice_number
     else
-      output_file.write(invoice_number + "\n")
+      @output_invoice_numbers << invoice_number + "\n"
     end
   end
 

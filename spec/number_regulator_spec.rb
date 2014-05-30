@@ -5,7 +5,7 @@ RSpec.describe NumberRegulator do
 
   describe "#regulate" do
 
-    context "when invoice number is legal is legal" do
+    context "when invoice number is legal" do
       subject { NumberRegulator.new("123456789") }
       
       it "returns the sent invoice number" do
@@ -13,7 +13,7 @@ RSpec.describe NumberRegulator do
       end
     end
 
-    context "when invoice number is legal is ilegal" do
+    context "when invoice number is ilegal" do
       subject { NumberRegulator.new("12?45?78?") }
       
       it "adds the string 'ILLEGAL' to the invoice number" do
