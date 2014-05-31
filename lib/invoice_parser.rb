@@ -3,10 +3,12 @@ require_relative "invoice_number_builder"
 
 class InvoiceParser
 
+  attr_reader :output_invoice_numbers
+
   def initialize(input_file_path)
     @input_file = File.open(input_file_path)
-    @current_disassembled_invoice_rows = []
     @output_invoice_numbers = []
+    @current_disassembled_invoice_rows = []
     @current_invoice_number = ""
   end
 
@@ -20,7 +22,13 @@ class InvoiceParser
         reset_temp_vars!
       end
     end
-    @output_invoice_numbers.join
+  end
+
+  def write_output_file(output_file_path)
+    File.open(output_file_path, "w") do |file|
+      file.write(@output_invoice_numbers.join)
+      file.close
+    end
   end
 
   private

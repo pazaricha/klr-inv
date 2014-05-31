@@ -12,7 +12,8 @@ RSpec.describe InvoiceParser do
       subject { InvoiceParser.new(user_story_1_input) }
 
       it "returns a string of parsed invoices numbers" do
-        subject.parse.should == user_story_1_output
+        subject.parse
+        subject.output_invoice_numbers.join.should == user_story_1_output
       end
     end
 
@@ -22,7 +23,8 @@ RSpec.describe InvoiceParser do
       subject { InvoiceParser.new(user_story_2_input) }
 
       it "returns a string of parsed invoices numbers" do
-        subject.parse.should == user_story_2_output
+        subject.parse
+        subject.output_invoice_numbers.join.should == user_story_2_output
       end
     end
 
