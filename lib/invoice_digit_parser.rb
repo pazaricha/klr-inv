@@ -1,13 +1,11 @@
-class DigitParser
+class InvoiceDigitParser
   
-  attr_reader :digit_pattern
-
   def initialize(digit_pattern)
     @digit_pattern = digit_pattern  
   end
   
   def parse
-    case digit_pattern
+    case @digit_pattern
     when /^ _ \| \|\|_\|$/ 
       "0"
     when /^     \|  \|$/ 

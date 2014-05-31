@@ -1,12 +1,12 @@
 require_relative "../helper_vars"
-require "#{$PROJECT_ROOT}/lib/number_regulator"
+require "#{$PROJECT_ROOT}/lib/invoice_number_regulator"
 
-RSpec.describe NumberRegulator do
+RSpec.describe InvoiceNumberRegulator do
 
   describe "#regulate" do
 
     context "when invoice number is legal" do
-      subject { NumberRegulator.new("123456789") }
+      subject { InvoiceNumberRegulator.new("123456789") }
       
       it "returns the sent invoice number" do
         subject.regulate.should == "123456789"
@@ -14,7 +14,7 @@ RSpec.describe NumberRegulator do
     end
 
     context "when invoice number is ilegal" do
-      subject { NumberRegulator.new("12?45?78?") }
+      subject { InvoiceNumberRegulator.new("12?45?78?") }
       
       it "adds the string 'ILLEGAL' to the invoice number" do
         subject.regulate.should == "12?45?78? ILLEGAL"

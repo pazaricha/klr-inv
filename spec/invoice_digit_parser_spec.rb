@@ -1,11 +1,11 @@
-require_relative "../lib/digit_parser"
+require_relative "../lib/invoice_digit_parser"
 
-RSpec.describe DigitParser do
+RSpec.describe InvoiceDigitParser do
 
   describe "#parse" do
 
     context "when the digit pattern is valid" do
-      subject { DigitParser.new(" _ | ||_|") }
+      subject { InvoiceDigitParser.new(" _ | ||_|") }
       
       it "returns the parsed digit" do
         subject.parse.should == "0"
@@ -13,7 +13,7 @@ RSpec.describe DigitParser do
     end
 
     context "when the digit pattern is invalid" do
-      subject { DigitParser.new("invalid pattern") }
+      subject { InvoiceDigitParser.new("invalid pattern") }
       
       it "returns a question mark" do
         subject.parse.should == "?"

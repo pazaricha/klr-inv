@@ -1,11 +1,11 @@
-require_relative "../lib/number_builder"
+require_relative "../lib/invoice_number_builder"
 
-RSpec.describe NumberBuilder do
+RSpec.describe InvoiceNumberBuilder do
 
   describe "#build" do
 
     context "when invoice number is legal" do
-      subject { NumberBuilder.new(
+      subject { InvoiceNumberBuilder.new(
         [
           [
             [" ", "_", " "], 
@@ -48,7 +48,7 @@ RSpec.describe NumberBuilder do
     end
 
     context "when invoice number is ilegal" do
-      subject { NumberBuilder.new(
+      subject { InvoiceNumberBuilder.new(
         [
           [
             [" ", "_", " "], 

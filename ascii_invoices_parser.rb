@@ -13,7 +13,7 @@ begin
   puts "File #{input_file_name} parsed successfully!"
 
   puts "Writing output file to /output_files/#{output_file_name}"
-  File.open("#{$PROJECT_ROOT}/output_files/#{input_file_name.gsub(".txt", "")}_parsed.txt", "w") do |file|
+  File.open("#{$PROJECT_ROOT}/output_files/#{output_file_name}", "w") do |file|
     file.write(parsed_invoices_numbers)
     file.close
   end
